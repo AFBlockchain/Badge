@@ -65,6 +65,5 @@ class CreateBadgeClass(
         //Step 2 create evolvable token
         progressTracker.currentStep = FINALISING_TRANSACTION
         return (subFlow(CreateEvolvableTokens(transactionState = transactionState, observers = observers as List<Party>)))
-
     }
 }
