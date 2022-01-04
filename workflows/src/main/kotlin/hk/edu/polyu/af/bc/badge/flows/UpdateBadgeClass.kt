@@ -1,4 +1,4 @@
-package hk.edu.polyu.af.bc.badge.badgeclass
+package hk.edu.polyu.af.bc.badge.flows
 
 import co.paralleluniverse.fibers.Suspendable
 import com.r3.corda.lib.tokens.workflows.flows.rpc.UpdateEvolvableToken
