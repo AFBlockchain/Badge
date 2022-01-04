@@ -8,14 +8,13 @@ import net.corda.core.flows.FlowLogic
 import net.corda.core.identity.AbstractParty
 import net.corda.core.identity.Party
 import net.corda.core.transactions.SignedTransaction
-import java.awt.image.BufferedImage
 
 
 class UpdateBadgeClass(
     private val badgeClassRef: StateAndRef<BadgeClass>,
     private val name: String,
     private val description: String,
-    private val image: BufferedImage,
+    private val image: ByteArray,
     private val observers: List<AbstractParty> = listOf()
 ): FlowLogic<SignedTransaction>() {
     @Suspendable
