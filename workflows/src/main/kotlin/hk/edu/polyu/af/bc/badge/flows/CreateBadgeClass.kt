@@ -12,6 +12,7 @@ import net.corda.core.identity.AbstractParty
 import net.corda.core.identity.Party
 import net.corda.core.transactions.SignedTransaction
 import net.corda.core.utilities.ProgressTracker
+import java.awt.image.BufferedImage
 
 /**
  * Create a [BadgeClass].
@@ -28,6 +29,7 @@ import net.corda.core.utilities.ProgressTracker
 class CreateBadgeClass(
         private val name: String,
         private val description: String,
+        private val image: BufferedImage,
         private val observers: List<AbstractParty> = listOf()
 ): FlowLogic<SignedTransaction>() {
     /**
@@ -55,7 +57,7 @@ class CreateBadgeClass(
 
         //step 1 create new transation and BadgeClass
         progressTracker.currentStep = GENERATING_TRANSACTION
-        val newBadgeClass = BadgeClass(name, description, ourIdentity, UniqueIdentifier())
+        val newBadgeClass = BadgeClass(name, description, image, ourIdentity, UniqueIdentifier())
 
         val transactionState = TransactionState<BadgeClass>(newBadgeClass, notary = notary)
 
