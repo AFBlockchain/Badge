@@ -22,4 +22,7 @@ class Assertion(
         IssuedTokenType(issuer, badgeClassPointer),
         recipient,
         linearId
-)
+){
+    override val participants: List<AbstractParty>
+        get() = listOf(issuer, recipient) // default is only recipient
+}
