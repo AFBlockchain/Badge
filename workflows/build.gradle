@@ -5,13 +5,13 @@ cordapp {
     targetPlatformVersion corda_platform_version
     minimumPlatformVersion corda_platform_version
     workflow {
-        name "Template Flows"
-        vendor "Corda Open Source"
+        name "Corbadge Flows"
+        vendor "AFBlockchain"
         licence "Apache License, Version 2.0"
         versionId 1
     }
 
-    signing {
+    signing { // TODO: remove this!
         enabled false
     }
 }
@@ -28,12 +28,6 @@ sourceSets {
         }
     }
     integrationTest {
-//        java {
-//            compileClasspath += main.output + test.output
-//            runtimeClasspath += main.output + test.output
-//            srcDir 'src/integrationTest/java'
-//        }
-
         kotlin {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
@@ -50,33 +44,27 @@ configurations {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-
-    // Corda dependencies.
     cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
     cordaRuntime "$corda_release_group:corda:$corda_release_version"
     testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
-
-    // CorDapp dependencies.
     cordapp project(":contracts")
-
     cordaCompile "$tokens_release_group:tokens-workflows:$tokens_release_version"
     cordaCompile "$tokens_release_group:tokens-selection:$tokens_release_version"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
-
-    testImplementation 'com.github.manosbatsis.corda.testacles:corda-testacles-mocknetwork:0.24'
     testImplementation 'com.github.manosbatsis.corda.testacles:corda-testacles-nodedriver:0.24'
-
-    testImplementation("org.postgresql:postgresql:42.2.18")
-
-    testImplementation 'redis.clients:jedis:4.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
     testImplementation 'org.testcontainers:testcontainers:1.16.2'
     testImplementation "org.testcontainers:junit-jupiter:1.16.2"
-    compile 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
 }
 
-task integrationTest(type: Test, dependsOn: []) {
+task integrationTest(type: Test, dependsOn: [':bundleCordapps']) {
     useJUnitPlatform()
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
 }
+
+tasks.getByPath(":workflows:build") dependsOn(":workflows:integrationTest")
+
+archivesBaseName='corbadge-workflows'
+version='0.1.0-SNAPSHOT'

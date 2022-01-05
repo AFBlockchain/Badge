@@ -6,6 +6,7 @@ import hk.edu.polyu.af.bc.badge.states.Assertion;
 import hk.edu.polyu.af.bc.badge.states.BadgeClass;
 import net.corda.client.rpc.CordaRPCClient;
 import net.corda.client.rpc.CordaRPCConnection;
+import net.corda.core.contracts.StateAndRef;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.utilities.NetworkHostAndPort;
@@ -27,8 +28,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 @Testcontainers
 public class DockerizedTest {
@@ -116,8 +119,19 @@ public class DockerizedTest {
         Assertion assertion = tx.getCoreTransaction().outputsOfType(Assertion.class).get(0);
         logger.info("Assertion: {}", assertion.toString());
 
+        int waitTime = 1;
+        logger.info("Waiting {}s for vaults to reflect changes", waitTime);
+        TimeUnit.SECONDS.sleep(waitTime);
+
+        List<StateAndRef<Assertion>> issVault = issProxy.vaultQuery(Assertion.class).getStates();
+        List<StateAndRef<Assertion>> recVault = recProxy.vaultQuery(Assertion.class).getStates();
+        logger.info("Issuer's vault: " + issVault.toString());
+        logger.info("Recipient's vault: " + recVault.toString());
+
+        logger.info("Checking that issuer's vault has the Assertion state");
         assert issProxy.vaultQuery(Assertion.class).getStates().stream().anyMatch(assertionStateAndRef ->
                 assertionStateAndRef.getState().getData().getLinearId().equals(assertion.getLinearId()));
+        logger.info("Checking that recipient's vault has the Assertion state");
         assert recProxy.vaultQuery(Assertion.class).getStates().stream().anyMatch(assertionStateAndRef ->
                 assertionStateAndRef.getState().getData().getLinearId().equals(assertion.getLinearId()));
     }
@@ -132,7 +146,7 @@ public class DockerizedTest {
 
     public static String getCordappPath() {
         Path projectBase = Paths.get(System.getProperty("user.dir")).getParent();
-        Path appRel = Paths.get("build/nodes/PartyA/cordapps"); // use PartyA's output cordapp
+        Path appRel = Paths.get("cordapps");
         Path appAbs = projectBase.resolve(appRel);
 
         assert appAbs.toFile().exists();
