@@ -22,4 +22,5 @@ class Assertion(
 ){
     override val participants: List<AbstractParty>
         get() = listOf(issuer, recipient) // default is only recipient
+        val test = 1
 }
