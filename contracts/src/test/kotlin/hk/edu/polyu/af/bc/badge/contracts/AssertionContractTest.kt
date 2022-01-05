@@ -19,11 +19,11 @@ internal class AssertionContractTest {
             // create a BadgeClass first
             val badgeClass = transaction {
                 command(identityA.publicKey, Create())
-                output( BadgeClassContract.ID, "badgeClass", BadgeClass("test", "test", identityA.party, UniqueIdentifier()))
+                output( BadgeClassContract.ID, "badgeClass", BadgeClass("test", "test",ByteArray(1), identityA.party, UniqueIdentifier()))
                 verifies()
             }.outputStates[0] as BadgeClass
 
-            val assertion = Assertion(badgeClass.toPointer(), identityA.party, identityB.party, UniqueIdentifier())
+            val assertion = Assertion(badgeClass.toPointer(), identityA.party, identityB.party, "test iisuedOn",true,UniqueIdentifier())
 
             transaction {
                 command(identityA.publicKey, IssueTokenCommand(assertion.issuedTokenType, listOf(0)))

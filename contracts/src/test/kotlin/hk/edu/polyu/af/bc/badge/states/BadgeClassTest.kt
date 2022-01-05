@@ -14,7 +14,7 @@ internal class BadgeClassTest {
     fun `can create badge class`() {
         val name = "Blockchain Associate"
         val description = "The badge recipient has successfully passed AFBlockchain courses"
-        val badgeClass = BadgeClass(name, description, me, UniqueIdentifier())
+        val badgeClass = BadgeClass(name, description, ByteArray(1),me, UniqueIdentifier())
 
         assertThat(badgeClass.name, equalTo(name))
         assertThat(badgeClass.description, equalTo(description))
