@@ -33,7 +33,7 @@ class IssueAssertion (
     @Suspendable
     override fun call(): SignedTransaction {
         var revoked:Boolean=true
-        val issuerofBadgeclass:Party=badgeClassPointer.pointer.resolve(serviceHub).state.data.getIssuer
+        val issuerofBadgeclass:Party=badgeClassPointer.pointer.resolve(serviceHub).state.data.maintainers[0]
         val issuer: Party = ourIdentity
         if(!issuerofBadgeclass.equals(issuer)){
             revoked=false
