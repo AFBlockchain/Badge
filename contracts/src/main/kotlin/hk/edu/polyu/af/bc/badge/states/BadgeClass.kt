@@ -9,7 +9,7 @@ import net.corda.core.identity.Party
 @BelongsToContract(BadgeClassContract::class)
 class BadgeClass(var name: String,
                  var description: String,
-                 var image: ByteArray,
+                 var image: ByteArray? = null,
                  private val issuer: Party,
                  override val linearId: UniqueIdentifier) : EvolvableTokenType() {
     override val fractionDigits: Int
