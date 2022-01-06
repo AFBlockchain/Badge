@@ -28,7 +28,7 @@ import net.corda.core.utilities.ProgressTracker
 class CreateBadgeClass(
         private val name: String,
         private val description: String,
-        private val image: ByteArray,
+        private val image: ByteArray? = null,
         private val observers: List<AbstractParty> = listOf()
 ): FlowLogic<SignedTransaction>() {
     /**
