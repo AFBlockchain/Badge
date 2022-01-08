@@ -12,6 +12,7 @@ import net.corda.core.flows.StartableByService
 import net.corda.core.identity.AbstractParty
 import net.corda.core.identity.Party
 import net.corda.core.transactions.SignedTransaction
+import kotlin.reflect.full.memberProperties
 
 /**
  * Update a [BadgeClass].
@@ -29,7 +30,7 @@ class UpdateBadgeClassFlow(
     private val badgeClassRef: StateAndRef<BadgeClass>,
     private val name: String,
     private val description: String,
-    private val image: ByteArray,
+    private val image: ByteArray?,
     private val observers: List<AbstractParty> = listOf()
 ): FlowLogic<SignedTransaction>() {
     @Suspendable
@@ -43,16 +44,26 @@ class UpdateBadgeClassFlow(
 @StartableByRPC
 @StartableByService
 class UpdateBadgeClass(
-    private val badgeClassId: UniqueIdentifier,
-    private val name: String,
-    private val description: String,
-    private val image: ByteArray,
+    private val badgeClassData: BadgeClassDTO,
     private val observers: List<AbstractParty> = listOf()
 ): FlowLogic<SignedTransaction>() {
     @Suspendable
     override fun call(): SignedTransaction {
-        val badgeClassRef = subFlow(BadgeClassById(badgeClassId))
-        return subFlow(UpdateBadgeClassFlow(badgeClassRef,name,description,image,observers))
+
+        val badgeClassRef = subFlow(BadgeClassById(badgeClassData.linearId))
+        if(badgeClassData.name == null) {
+            badgeClassData.name = badgeClassRef.state.data.name
+        }
+        if(badgeClassData.description == null) {
+            badgeClassData.description = badgeClassRef.state.data.description
+
+        }
+        if (badgeClassData.image == null) {
+            badgeClassData.image = badgeClassRef.state.data.image
+        }
+
+        return subFlow(UpdateBadgeClassFlow(badgeClassRef,
+            badgeClassData.name!!, badgeClassData.description!!,badgeClassData.image,observers))
     }
 
 }

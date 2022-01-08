@@ -2,6 +2,7 @@ package hk.edu.polyu.af.bc.badge.badgeclass
 
 import hk.edu.polyu.af.bc.badge.UnitTestBase
 import hk.edu.polyu.af.bc.badge.assertHaveState
+import hk.edu.polyu.af.bc.badge.flows.BadgeClassDTO
 import hk.edu.polyu.af.bc.badge.flows.UpdateBadgeClass
 import hk.edu.polyu.af.bc.badge.flows.CreateBadgeClass
 import hk.edu.polyu.af.bc.badge.getOrThrow
@@ -38,8 +39,9 @@ class UpdateBadgeClassTest:UnitTestBase() {
         }
 
 
+        val badgeClassDTO = BadgeClassDTO("name changed","description changed",ByteArray(1),badgeClass.maintainers[0],badgeClass.linearId)
 
-        val tx2 = instA.startFlow(UpdateBadgeClass(badgeClass.linearId,"name changed", "description changed", ByteArray(1))).getOrThrow(network)
+        val tx2 = instA.startFlow(UpdateBadgeClass(badgeClassDTO)).getOrThrow(network)
 
         //assert flow output
         val updateBadgeClass = tx2.output(BadgeClass::class.java)
