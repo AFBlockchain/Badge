@@ -38,13 +38,8 @@ class UpdateBadgeClassTest:UnitTestBase() {
         }
 
 
-        //query the BadgeClass by uuid
-        val badgeClassRef: StateAndRef<BadgeClass> = LinearPointer<BadgeClass>(
-            badgeClass.linearId,
-            BadgeClass::class.java,
-            false).resolve(instA.services)
 
-        val tx2 = instA.startFlow(UpdateBadgeClass(badgeClassRef,"name changed", "description changed", ByteArray(1))).getOrThrow(network)
+        val tx2 = instA.startFlow(UpdateBadgeClass(badgeClass.linearId,"name changed", "description changed", ByteArray(1))).getOrThrow(network)
 
         //assert flow output
         val updateBadgeClass = tx2.output(BadgeClass::class.java)

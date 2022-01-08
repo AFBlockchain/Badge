@@ -19,7 +19,7 @@ import net.corda.core.flows.StartableByService
 
 @StartableByRPC
 @StartableByService
-class AccountInfoByUUID(private val linearId: UniqueIdentifier) : FlowLogic<StateAndRef<BadgeClass>>() {
+class BadgeClassById(private val linearId: UniqueIdentifier) : FlowLogic<StateAndRef<BadgeClass>>() {
     @Suspendable
     override fun call(): StateAndRef<BadgeClass> {
         return LinearPointer(
