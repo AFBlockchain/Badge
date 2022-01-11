@@ -34,10 +34,10 @@ class IssueAssertion (
 ) : FlowLogic<SignedTransaction>() {
     @Suspendable
     override fun call(): SignedTransaction {
-        var revoked:Boolean=true
+        var revoked:Boolean=false
         val issuerofBadgeclass:Party=badgeClassPointer.pointer.resolve(serviceHub).state.data.maintainers[0]
         val issuer: Party = ourIdentity
-        if(!issuerofBadgeclass.equals(issuer)){
+        if(issuerofBadgeclass==issuer){
             revoked=false
         }
 
