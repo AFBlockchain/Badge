@@ -1,5 +1,6 @@
 package hk.edu.polyu.af.bc.badge.badgeclass
 
+import com.google.common.io.ByteStreams
 import hk.edu.polyu.af.bc.badge.UnitTestBase
 import hk.edu.polyu.af.bc.badge.assertHaveState
 import hk.edu.polyu.af.bc.badge.flows.BadgeClassDTO
@@ -13,6 +14,9 @@ import net.corda.core.contracts.StateAndRef
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.slf4j.LoggerFactory
+import java.io.BufferedOutputStream
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import java.util.*
 import kotlin.test.assertEquals
 
@@ -26,7 +30,16 @@ class UpdateBadgeClassTest:UnitTestBase() {
     @Test
     fun `can update a BadgeClass`() {
 
-        val tx = instA.startFlow(CreateBadgeClass("Test Badge", "Just for testing", ByteArray(1))).getOrThrow(network)
+        //create the image byte
+        val filePath = "images/ob_flows.png"
+        val fileIn: InputStream? = this.javaClass.classLoader.getResourceAsStream(filePath)
+        val imageStream = ByteArrayOutputStream()
+        val fileOut = BufferedOutputStream(imageStream,1024)
+        ByteStreams.copy(fileIn, fileOut)
+        fileOut.flush()
+        val imageByte = imageStream.toByteArray()
+
+        val tx = instA.startFlow(CreateBadgeClass("Test Badge", "Just for testing",imageByte)).getOrThrow(network)
 
         val badgeClass = tx.output(BadgeClass::class.java)
 
@@ -38,8 +51,7 @@ class UpdateBadgeClassTest:UnitTestBase() {
                 s1, s2 -> s1.linearId == s2.linearId
         }
 
-
-        val badgeClassDTO = BadgeClassDTO("name changed","description changed",ByteArray(1),badgeClass.maintainers[0],badgeClass.linearId)
+        val badgeClassDTO = BadgeClassDTO("name changed","description changed",imageByte,badgeClass.maintainers[0],badgeClass.linearId)
 
         val tx2 = instA.startFlow(UpdateBadgeClass(badgeClassDTO)).getOrThrow(network)
 
@@ -51,8 +63,5 @@ class UpdateBadgeClassTest:UnitTestBase() {
         instA.assertHaveState(updateBadgeClass) {
                 s1, s2 -> s1.linearId == s2.linearId
         }
-
-
-
     }
 }
