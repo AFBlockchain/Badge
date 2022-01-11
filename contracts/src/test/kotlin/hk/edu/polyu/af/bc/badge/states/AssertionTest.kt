@@ -4,6 +4,7 @@ import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.identity.Party
 import net.corda.testing.core.TestIdentity
 import org.junit.jupiter.api.Test
+import java.util.*
 import kotlin.test.assertEquals
 
 internal class AssertionTest {
@@ -12,7 +13,7 @@ internal class AssertionTest {
 
     @Test
     fun `can create an assertion`() {
-        val assertion = Assertion(badgeClass.toPointer(), me, me, "test issuedOn",true,UniqueIdentifier())
+        val assertion = Assertion(badgeClass.toPointer(), me, me, Date(),true,UniqueIdentifier())
 
         assertEquals(assertion.holder, me)
         assertEquals(assertion.issuer, me)
