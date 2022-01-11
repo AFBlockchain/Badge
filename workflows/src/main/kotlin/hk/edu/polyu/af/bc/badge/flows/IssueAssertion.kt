@@ -12,6 +12,7 @@ import net.corda.core.identity.Party
 import net.corda.core.transactions.SignedTransaction
 import java.time.Instant
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 /**
  * Issue an [Assertion].
@@ -39,7 +40,7 @@ class IssueAssertion (
             revoked=false
         }
 
-        val assertion= Assertion(badgeClassPointer, issuer, recipient, DateTimeFormatter.ISO_INSTANT.format(Instant.now()),revoked,UniqueIdentifier())
+        val assertion= Assertion(badgeClassPointer, issuer, recipient, Date(),revoked,UniqueIdentifier())
         val tokens = listOf(assertion)
 
         return subFlow(IssueTokens(tokens))
