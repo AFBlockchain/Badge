@@ -4,6 +4,7 @@ import hk.edu.polyu.af.bc.badge.UnitTestBase
 import hk.edu.polyu.af.bc.badge.assertHaveState
 import hk.edu.polyu.af.bc.badge.flows.UpdateBadgeClass
 import hk.edu.polyu.af.bc.badge.flows.CreateBadgeClass
+import hk.edu.polyu.af.bc.badge.flows.QueryBadgeClassById
 import hk.edu.polyu.af.bc.badge.getOrThrow
 import hk.edu.polyu.af.bc.badge.output
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
@@ -39,10 +40,7 @@ class BadgeClassByIdTest : UnitTestBase() {
 
 
         //query the BadgeClass by uuid
-        val badgeClassRef: StateAndRef<BadgeClass> = LinearPointer<BadgeClass>(
-            badgeClass.linearId,
-            BadgeClass::class.java,
-            false).resolve(instA.services)
+        val badgeClassRef: StateAndRef<BadgeClass> = instA.startFlow(QueryBadgeClassById(badgeClass.linearId)).getOrThrow(network)
 
         // assert equal of this two badgeClass
         assertEquals(badgeClass.name, badgeClassRef.state.data.name)

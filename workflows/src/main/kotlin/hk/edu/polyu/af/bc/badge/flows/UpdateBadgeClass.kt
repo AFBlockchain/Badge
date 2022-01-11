@@ -1,18 +1,15 @@
 package hk.edu.polyu.af.bc.badge.flows
 
 import co.paralleluniverse.fibers.Suspendable
-import com.r3.corda.lib.tokens.workflows.flows.rpc.CreateEvolvableTokens
 import com.r3.corda.lib.tokens.workflows.flows.rpc.UpdateEvolvableToken
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
 import net.corda.core.contracts.StateAndRef
-import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.flows.FlowLogic
 import net.corda.core.flows.StartableByRPC
 import net.corda.core.flows.StartableByService
 import net.corda.core.identity.AbstractParty
 import net.corda.core.identity.Party
 import net.corda.core.transactions.SignedTransaction
-import kotlin.reflect.full.memberProperties
 
 /**
  * Update a [BadgeClass].
@@ -50,7 +47,7 @@ class UpdateBadgeClass(
     @Suspendable
     override fun call(): SignedTransaction {
 
-        val badgeClassRef = subFlow(BadgeClassById(badgeClassData.linearId))
+        val badgeClassRef = subFlow(QueryBadgeClassById(badgeClassData.linearId))
         if(badgeClassData.name == null) {
             badgeClassData.name = badgeClassRef.state.data.name
         }

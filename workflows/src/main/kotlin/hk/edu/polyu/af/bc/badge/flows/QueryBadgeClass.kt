@@ -1,7 +1,6 @@
 package hk.edu.polyu.af.bc.badge.flows
 
 import co.paralleluniverse.fibers.Suspendable
-import com.r3.corda.lib.tokens.workflows.flows.rpc.CreateEvolvableTokens
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
 import net.corda.core.contracts.LinearPointer
 import net.corda.core.contracts.StateAndRef
@@ -19,7 +18,7 @@ import net.corda.core.flows.StartableByService
 
 @StartableByRPC
 @StartableByService
-class BadgeClassById(private val linearId: UniqueIdentifier) : FlowLogic<StateAndRef<BadgeClass>>() {
+class QueryBadgeClassById(private val linearId: UniqueIdentifier) : FlowLogic<StateAndRef<BadgeClass>>() {
     @Suspendable
     override fun call(): StateAndRef<BadgeClass> {
         return LinearPointer(
