@@ -23,7 +23,7 @@ internal class AssertionContractTest {
                 verifies()
             }.outputStates[0] as BadgeClass
 
-            val assertion = Assertion(badgeClass.toPointer(), identityA.party, identityB.party, 123123123,true,UniqueIdentifier())
+            val assertion = Assertion(badgeClass.toPointer(), identityA.party, identityB.party, Date(Calendar.YEAR,Calendar.MONTH,Calendar.DATE),true,UniqueIdentifier())
 
             transaction {
                 command(identityA.publicKey, IssueTokenCommand(assertion.issuedTokenType, listOf(0)))
