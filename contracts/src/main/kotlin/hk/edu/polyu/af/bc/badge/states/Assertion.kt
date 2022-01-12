@@ -15,8 +15,8 @@ class Assertion(
         private val badgeClassPointer: TokenPointer<BadgeClass>,
         override val issuer: Party, // TODO: issuer must be the same as the issuer in the badgeClass. Check this in contract
         private val recipient: AbstractParty,
-        private val issuedOn: Long,
-        private val revoked: Boolean,
+        private val issuedOn: Date,
+        public var revoked: Boolean,
         override val linearId: UniqueIdentifier
 
 ): NonFungibleToken(

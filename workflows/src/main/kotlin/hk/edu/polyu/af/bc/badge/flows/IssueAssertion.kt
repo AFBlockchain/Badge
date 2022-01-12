@@ -6,6 +6,7 @@ import com.r3.corda.lib.tokens.workflows.flows.rpc.IssueTokens
 import hk.edu.polyu.af.bc.badge.states.Assertion
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
 import jdk.jfr.internal.handlers.EventHandler.timestamp
+import jdk.nashorn.internal.objects.NativeDate.*
 import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.flows.*
 import net.corda.core.identity.AbstractParty
@@ -37,11 +38,7 @@ class IssueAssertion (
         var revoked:Boolean=false
         val issuerofBadgeclass:Party=badgeClassPointer.pointer.resolve(serviceHub).state.data.maintainers[0]
         val issuer: Party = ourIdentity
-        if(issuerofBadgeclass==issuer){
-            revoked=false
-        }
-
-        val assertion= Assertion(badgeClassPointer, issuer, recipient, timestamp(),revoked,UniqueIdentifier())
+        val assertion= Assertion(badgeClassPointer, issuer, recipient, Date(Calendar.YEAR,Calendar.MONTH,Calendar.DATE),revoked,UniqueIdentifier())
         val tokens = listOf(assertion)
 
         return subFlow(IssueTokens(tokens))
