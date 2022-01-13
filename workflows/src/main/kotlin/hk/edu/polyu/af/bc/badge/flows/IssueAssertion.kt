@@ -38,7 +38,8 @@ class IssueAssertion (
         var revoked:Boolean=false
         val issuerofBadgeclass:Party=badgeClassPointer.pointer.resolve(serviceHub).state.data.maintainers[0]
         val issuer: Party = ourIdentity
-        val assertion= Assertion(badgeClassPointer, issuer, recipient, Date(Calendar.YEAR,Calendar.MONTH,Calendar.DATE),revoked,UniqueIdentifier())
+        val calendar:Calendar=Calendar.getInstance()
+        val assertion= Assertion(badgeClassPointer, issuer, recipient, Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.DATE)),revoked,UniqueIdentifier())
         val tokens = listOf(assertion)
 
         return subFlow(IssueTokens(tokens))

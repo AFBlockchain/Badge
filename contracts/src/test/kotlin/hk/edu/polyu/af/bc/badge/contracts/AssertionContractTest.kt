@@ -11,6 +11,7 @@ import hk.edu.polyu.af.bc.badge.states.BadgeClass
 import net.corda.core.contracts.UniqueIdentifier
 import net.corda.testing.node.ledger
 import org.junit.jupiter.api.Test
+import java.util.*
 
 internal class AssertionContractTest {
     @Test
@@ -21,9 +22,11 @@ internal class AssertionContractTest {
                 command(identityA.publicKey, Create())
                 output( BadgeClassContract.ID, "badgeClass", BadgeClass("test", "test",ByteArray(1), identityA.party, UniqueIdentifier()))
                 verifies()
-            }.outputStates[0] as BadgeClass
 
-            val assertion = Assertion(badgeClass.toPointer(), identityA.party, identityB.party, Date(Calendar.YEAR,Calendar.MONTH,Calendar.DATE),true,UniqueIdentifier())
+            }.outputStates[0] as BadgeClass
+            val calendar:Calendar=Calendar.getInstance()
+
+            val assertion = Assertion(badgeClass.toPointer(), identityA.party, identityB.party, Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.DATE)),true,UniqueIdentifier())
 
             transaction {
                 command(identityA.publicKey, IssueTokenCommand(assertion.issuedTokenType, listOf(0)))
