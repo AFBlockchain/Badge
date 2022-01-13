@@ -12,6 +12,7 @@ import hk.edu.polyu.af.bc.badge.states.BadgeClass
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.slf4j.LoggerFactory
+import java.awt.image.BufferedImage
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -25,7 +26,7 @@ class IssueAssertionTest: UnitTestBase() {
     fun `InstitutionA issues an Assertion to LearnerA`() {
         // create a BadgeClass
         logger.info("Creating BadgeClass");
-        val badgeClassTx = instA.startFlow(CreateBadgeClass("test", "test")).getOrThrow(network)
+        val badgeClassTx = instA.startFlow(CreateBadgeClass("test", "test", ByteArray(1))).getOrThrow(network)
         val badgeClass = badgeClassTx.output(BadgeClass::class.java)
         logger.info("BadgeClass Created: {}", badgeClass);
 

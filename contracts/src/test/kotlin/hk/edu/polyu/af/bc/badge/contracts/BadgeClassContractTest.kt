@@ -20,7 +20,7 @@ internal class BadgeClassContractTest {
         ledgerService.ledger {
             transaction {
                 command(identityA.publicKey, Create())
-                output(BadgeClassContract.ID, BadgeClass("test", "test", identityA.party, UniqueIdentifier()))
+                output(BadgeClassContract.ID, BadgeClass("test", "test", ByteArray(1),identityA.party, UniqueIdentifier()))
                 verifies()
             }
 
