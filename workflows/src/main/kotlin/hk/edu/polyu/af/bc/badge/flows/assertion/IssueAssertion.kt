@@ -1,4 +1,4 @@
-package hk.edu.polyu.af.bc.badge.flows
+package hk.edu.polyu.af.bc.badge.flows.assertion
 
 import co.paralleluniverse.fibers.Suspendable
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer

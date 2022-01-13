@@ -1,4 +1,4 @@
-package hk.edu.polyu.af.bc.badge.flows
+package hk.edu.polyu.af.bc.badge.flows.badgeclass
 
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
 import net.corda.core.contracts.UniqueIdentifier

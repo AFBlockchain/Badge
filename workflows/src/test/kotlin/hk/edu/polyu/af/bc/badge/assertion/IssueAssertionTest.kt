@@ -3,8 +3,8 @@ package hk.edu.polyu.af.bc.badge.assertion
 import hk.edu.polyu.af.bc.badge.UnitTestBase
 import hk.edu.polyu.af.bc.badge.assertHaveState
 import hk.edu.polyu.af.bc.badge.badgeclass.CreateBadgeClassTest
-import hk.edu.polyu.af.bc.badge.flows.CreateBadgeClass
-import hk.edu.polyu.af.bc.badge.flows.IssueAssertion
+import hk.edu.polyu.af.bc.badge.flows.assertion.IssueAssertion
+import hk.edu.polyu.af.bc.badge.flows.badgeclass.CreateBadgeClass
 import hk.edu.polyu.af.bc.badge.getOrThrow
 import hk.edu.polyu.af.bc.badge.output
 import hk.edu.polyu.af.bc.badge.states.Assertion
@@ -12,7 +12,6 @@ import hk.edu.polyu.af.bc.badge.states.BadgeClass
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.slf4j.LoggerFactory
-import java.awt.image.BufferedImage
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

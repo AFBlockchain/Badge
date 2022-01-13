@@ -1,7 +1,7 @@
 package hk.edu.polyu.af.bc.badge;
 
-import hk.edu.polyu.af.bc.badge.flows.CreateBadgeClass;
-import hk.edu.polyu.af.bc.badge.flows.IssueAssertion;
+import hk.edu.polyu.af.bc.badge.flows.assertion.IssueAssertion;
+import hk.edu.polyu.af.bc.badge.flows.badgeclass.CreateBadgeClass;
 import hk.edu.polyu.af.bc.badge.states.Assertion;
 import hk.edu.polyu.af.bc.badge.states.BadgeClass;
 import net.corda.client.rpc.CordaRPCClient;

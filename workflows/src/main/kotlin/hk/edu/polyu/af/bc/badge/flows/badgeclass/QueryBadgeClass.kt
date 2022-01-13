@@ -1,4 +1,4 @@
-package hk.edu.polyu.af.bc.badge.flows
+package hk.edu.polyu.af.bc.badge.flows.badgeclass
 
 import co.paralleluniverse.fibers.Suspendable
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
@@ -11,7 +11,6 @@ import net.corda.core.flows.StartableByService
 
 /**
  * Query a [BadgeClass] by ID.
- *
  *
  * @property linearId the linearId of a badgeClass
  */

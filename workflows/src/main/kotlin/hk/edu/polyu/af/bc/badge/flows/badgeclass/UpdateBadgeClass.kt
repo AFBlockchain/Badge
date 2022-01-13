@@ -1,4 +1,4 @@
-package hk.edu.polyu.af.bc.badge.flows
+package hk.edu.polyu.af.bc.badge.flows.badgeclass
 
 import co.paralleluniverse.fibers.Suspendable
 import com.r3.corda.lib.tokens.workflows.flows.rpc.UpdateEvolvableToken
@@ -22,7 +22,6 @@ import net.corda.core.transactions.SignedTransaction
  * @property image the byte code of image
  * @property observers observer parties (optional)
  */
-
 class UpdateBadgeClassFlow(
     private val badgeClassRef: StateAndRef<BadgeClass>,
     private val name: String,
@@ -41,12 +40,11 @@ class UpdateBadgeClassFlow(
 @StartableByRPC
 @StartableByService
 class UpdateBadgeClass(
-    private val badgeClassData: BadgeClassDTO,
-    private val observers: List<AbstractParty> = listOf()
+        private val badgeClassData: BadgeClassDTO,
+        private val observers: List<AbstractParty> = listOf()
 ): FlowLogic<SignedTransaction>() {
     @Suspendable
     override fun call(): SignedTransaction {
-
         val badgeClassRef = subFlow(QueryBadgeClassById(badgeClassData.linearId))
         if(badgeClassData.name == null) {
             badgeClassData.name = badgeClassRef.state.data.name

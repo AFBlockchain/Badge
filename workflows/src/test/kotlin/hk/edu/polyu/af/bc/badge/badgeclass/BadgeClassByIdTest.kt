@@ -2,18 +2,15 @@ package hk.edu.polyu.af.bc.badge.badgeclass
 
 import hk.edu.polyu.af.bc.badge.UnitTestBase
 import hk.edu.polyu.af.bc.badge.assertHaveState
-import hk.edu.polyu.af.bc.badge.flows.UpdateBadgeClass
-import hk.edu.polyu.af.bc.badge.flows.CreateBadgeClass
-import hk.edu.polyu.af.bc.badge.flows.QueryBadgeClassById
+import hk.edu.polyu.af.bc.badge.flows.badgeclass.CreateBadgeClass
+import hk.edu.polyu.af.bc.badge.flows.badgeclass.QueryBadgeClassById
 import hk.edu.polyu.af.bc.badge.getOrThrow
 import hk.edu.polyu.af.bc.badge.output
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
-import net.corda.core.contracts.LinearPointer
 import net.corda.core.contracts.StateAndRef
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.slf4j.LoggerFactory
-import java.util.*
 import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

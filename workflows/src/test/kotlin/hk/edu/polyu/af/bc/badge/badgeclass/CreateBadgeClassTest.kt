@@ -3,19 +3,16 @@ package hk.edu.polyu.af.bc.badge.badgeclass
 import com.google.common.io.ByteStreams.copy
 import hk.edu.polyu.af.bc.badge.UnitTestBase
 import hk.edu.polyu.af.bc.badge.assertHaveState
-import hk.edu.polyu.af.bc.badge.flows.CreateBadgeClass
+import hk.edu.polyu.af.bc.badge.flows.badgeclass.CreateBadgeClass
 import hk.edu.polyu.af.bc.badge.getOrThrow
 import hk.edu.polyu.af.bc.badge.output
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.slf4j.LoggerFactory
-import org.testcontainers.shaded.org.yaml.snakeyaml.scanner.Constant
-import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
-import java.net.URL
 import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

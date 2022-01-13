@@ -1,4 +1,4 @@
-package hk.edu.polyu.af.bc.badge.flows
+package hk.edu.polyu.af.bc.badge.flows.assertion
 
 import hk.edu.polyu.af.bc.badge.states.Assertion
 import net.corda.core.flows.FlowLogic

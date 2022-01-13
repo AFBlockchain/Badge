@@ -1,4 +1,4 @@
-package hk.edu.polyu.af.bc.badge.flows
+package hk.edu.polyu.af.bc.badge.flows.badgeclass
 
 import co.paralleluniverse.fibers.Suspendable
 import com.r3.corda.lib.tokens.workflows.flows.rpc.CreateEvolvableTokens
@@ -54,7 +54,7 @@ class CreateBadgeClass(
         //get the corda default notary
         val notary = serviceHub.networkMapCache.notaryIdentities[0]
 
-        //step 1 create new transation and BadgeClass
+        //step 1 create new transaction and BadgeClass
         progressTracker.currentStep = GENERATING_TRANSACTION
         val newBadgeClass = BadgeClass(name, description, image, ourIdentity, UniqueIdentifier())
 
