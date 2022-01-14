@@ -14,7 +14,6 @@ import net.corda.core.flows.StartableByService
  *
  * @property linearId the linearId of a badgeClass
  */
-
 @StartableByRPC
 @StartableByService
 class QueryBadgeClassById(private val linearId: UniqueIdentifier) : FlowLogic<StateAndRef<BadgeClass>>() {
@@ -27,3 +26,5 @@ class QueryBadgeClassById(private val linearId: UniqueIdentifier) : FlowLogic<St
         ).resolve(serviceHub)
     }
 }
+
+// TODO: query by name
