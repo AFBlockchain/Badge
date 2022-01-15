@@ -54,7 +54,7 @@ class ReadBadgeClassByName(private val name: String) : FlowLogic<StateAndRef<Bad
     override fun call(): StateAndRef<BadgeClass> {
         val allBadgeClass = subFlow(ReadAllBadgeClass())
         val result = allBadgeClass.filter { it.state.data.name == name }
-        if(allBadgeClass.isEmpty()) {
+        if(result.isEmpty()) {
             throw FlowException("The $name is not exist")
         }
         return result[0]
