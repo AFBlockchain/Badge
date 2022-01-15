@@ -66,3 +66,14 @@ class CreateBadgeClass(
         return (subFlow(CreateEvolvableTokens(transactionState = transactionState, observers = observers as List<Party>)))
     }
 }
+
+@StartableByRPC
+@StartableByService
+class CreateBadgeClassByND(
+    private val name: String,
+    private val description: String
+): FlowLogic<SignedTransaction>() {
+    override fun call(): SignedTransaction {
+        return subFlow(CreateBadgeClass(name,description,null))
+    }
+}
