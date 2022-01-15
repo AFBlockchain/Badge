@@ -36,14 +36,14 @@ class CreateBadgeClass(
      * checkpoint is reached in the code. See the 'progressTracker.currentStep' expressions within the call() function.
      */
     companion object {
-        object GENERATING_TRANSACTION : ProgressTracker.Step("Generating transaction based on new BadgeClass.")
+        object GeneratingTransaction : ProgressTracker.Step("Generating transaction based on new BadgeClass.")
 
-        object FINALISING_TRANSACTION : ProgressTracker.Step("Create evolvable token")
+        object FinalisingTransaction : ProgressTracker.Step("Create evolvable token")
 
 
         fun tracker() = ProgressTracker(
-            GENERATING_TRANSACTION,
-            FINALISING_TRANSACTION
+            GeneratingTransaction,
+            FinalisingTransaction
         )
     }
 
@@ -55,24 +55,31 @@ class CreateBadgeClass(
         val notary = serviceHub.networkMapCache.notaryIdentities[0]
 
         //step 1 create new transaction and BadgeClass
-        progressTracker.currentStep = GENERATING_TRANSACTION
+        progressTracker.currentStep = GeneratingTransaction
         val newBadgeClass = BadgeClass(name, description, image, ourIdentity, UniqueIdentifier())
 
         val transactionState = TransactionState<BadgeClass>(newBadgeClass, notary = notary)
 
 
         //Step 2 create evolvable token
-        progressTracker.currentStep = FINALISING_TRANSACTION
+        progressTracker.currentStep = FinalisingTransaction
         return (subFlow(CreateEvolvableTokens(transactionState = transactionState, observers = observers as List<Party>)))
     }
 }
 
+/**
+ * Create a [BadgeClass] by name and description.
+ *
+ * @property name name of this type of badges
+ * @property description a short description of achievement denoted by this type of badges
+ */
 @StartableByRPC
 @StartableByService
 class CreateBadgeClassByND(
     private val name: String,
     private val description: String
 ): FlowLogic<SignedTransaction>() {
+    @Suspendable
     override fun call(): SignedTransaction {
         return subFlow(CreateBadgeClass(name,description,null))
     }
