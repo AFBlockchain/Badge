@@ -53,7 +53,6 @@ class UpdateBadgeClass(
         }
         if(badgeClassData.description == null) {
             badgeClassData.description = badgeClassRef.state.data.description
-
         }
         if (badgeClassData.image == null) {
             badgeClassData.image = badgeClassRef.state.data.image

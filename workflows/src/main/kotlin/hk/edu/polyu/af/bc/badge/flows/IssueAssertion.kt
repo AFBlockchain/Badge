@@ -41,7 +41,6 @@ class IssueAssertion (
         val calendar:Calendar=Calendar.getInstance()
         val assertion= Assertion(badgeClassPointer, issuer, recipient, Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.DATE)),revoked,UniqueIdentifier())
         val tokens = listOf(assertion)
-
         return subFlow(IssueTokens(tokens))
     }
 }
