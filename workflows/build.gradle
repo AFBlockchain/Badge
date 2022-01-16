@@ -64,7 +64,4 @@ task integrationTest(type: Test, dependsOn: [':bundleCordapps']) {
     classpath = sourceSets.integrationTest.runtimeClasspath
 }
 
-tasks.getByPath(":workflows:build") dependsOn(":workflows:integrationTest")
-
 archivesBaseName='corbadge-workflows'
-version='0.1.0-SNAPSHOT'

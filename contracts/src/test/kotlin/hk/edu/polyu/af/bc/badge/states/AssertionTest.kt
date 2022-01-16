@@ -19,4 +19,18 @@ internal class AssertionTest {
         assertEquals(assertion.issuer, me)
         assertEquals(assertion.issuedTokenType.tokenType.tokenClass, BadgeClass::class.java)
     }
+
+    @Test
+    fun `should print correct date string representation`() {
+        val dateString = Assertion.assertionDateFormat.format(Date(122, 0, 12))
+
+        assert(dateString == "12.01.2022")
+    }
+
+    @Test
+    fun `can parse date string`() {
+        val date = Assertion.assertionDateFormat.parse("12.01.2022")
+
+        assert(date.year == 122 && date.month == 0 && date.date == 12)
+    }
 }

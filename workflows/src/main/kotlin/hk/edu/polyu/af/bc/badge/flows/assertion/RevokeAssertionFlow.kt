@@ -1,4 +1,4 @@
-package hk.edu.polyu.af.bc.badge.flows
+package hk.edu.polyu.af.bc.badge.flows.assertion
 
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer
 import hk.edu.polyu.af.bc.badge.states.Assertion

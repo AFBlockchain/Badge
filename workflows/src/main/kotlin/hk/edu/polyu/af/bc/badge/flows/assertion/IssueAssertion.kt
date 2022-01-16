@@ -1,19 +1,17 @@
-package hk.edu.polyu.af.bc.badge.flows
+package hk.edu.polyu.af.bc.badge.flows.assertion
 
 import co.paralleluniverse.fibers.Suspendable
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer
 import com.r3.corda.lib.tokens.workflows.flows.rpc.IssueTokens
 import hk.edu.polyu.af.bc.badge.states.Assertion
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
-import jdk.jfr.internal.handlers.EventHandler.timestamp
-import jdk.nashorn.internal.objects.NativeDate.*
 import net.corda.core.contracts.UniqueIdentifier
-import net.corda.core.flows.*
+import net.corda.core.flows.FlowLogic
+import net.corda.core.flows.InitiatingFlow
+import net.corda.core.flows.StartableByRPC
+import net.corda.core.flows.StartableByService
 import net.corda.core.identity.AbstractParty
-import net.corda.core.identity.Party
 import net.corda.core.transactions.SignedTransaction
-import java.time.Instant
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -35,12 +33,14 @@ class IssueAssertion (
 ) : FlowLogic<SignedTransaction>() {
     @Suspendable
     override fun call(): SignedTransaction {
-        var revoked:Boolean=false
-        val issuerofBadgeclass:Party=badgeClassPointer.pointer.resolve(serviceHub).state.data.maintainers[0]
-        val issuer: Party = ourIdentity
-        val calendar:Calendar=Calendar.getInstance()
-        val assertion= Assertion(badgeClassPointer, issuer, recipient, Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.DATE)),revoked,UniqueIdentifier())
-        val tokens = listOf(assertion)
-        return subFlow(IssueTokens(tokens))
+        // TODO: check that we are the `issue` of the BadgeClass
+        val assertion= Assertion(badgeClassPointer,
+                ourIdentity,
+                recipient,
+                Date(),  // current time
+                false,
+                UniqueIdentifier())
+
+        return subFlow(IssueTokens(listOf(assertion)))
     }
 }
