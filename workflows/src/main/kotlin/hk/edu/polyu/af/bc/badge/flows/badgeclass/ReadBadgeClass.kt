@@ -31,7 +31,7 @@ class GetAllBadgeClasses : FlowLogic<List<StateAndRef<BadgeClass>>>() {
  */
 @StartableByRPC
 @StartableByService
-class ReadBadgeClassById(private val linearId: UniqueIdentifier) : FlowLogic<StateAndRef<BadgeClass>>() {
+class GetBadgeClassById(private val linearId: UniqueIdentifier) : FlowLogic<StateAndRef<BadgeClass>>() {
     @Suspendable
     override fun call(): StateAndRef<BadgeClass> {
         return LinearPointer(
@@ -49,7 +49,7 @@ class ReadBadgeClassById(private val linearId: UniqueIdentifier) : FlowLogic<Sta
  */
 @StartableByRPC
 @StartableByService
-class ReadBadgeClassByName(private val name: String) : FlowLogic<StateAndRef<BadgeClass>>() {
+class GetBadgeClassByName(private val name: String) : FlowLogic<StateAndRef<BadgeClass>>() {
     @Suspendable
     override fun call(): StateAndRef<BadgeClass> {
         val allBadgeClass = subFlow(GetAllBadgeClasses())

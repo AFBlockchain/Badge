@@ -53,7 +53,7 @@ class UpdateBadgeClass(
 ): FlowLogic<SignedTransaction>() {
     @Suspendable
     override fun call(): SignedTransaction {
-        val badgeClassRef = subFlow(ReadBadgeClassById(badgeClassData.linearId))
+        val badgeClassRef = subFlow(GetBadgeClassById(badgeClassData.linearId))
         if(badgeClassData.name == null) {
             badgeClassData.name = badgeClassRef.state.data.name
         }

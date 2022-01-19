@@ -4,8 +4,8 @@ import hk.edu.polyu.af.bc.badge.UnitTestBase
 import hk.edu.polyu.af.bc.badge.assertHaveState
 import hk.edu.polyu.af.bc.badge.flows.badgeclass.CreateBadgeClass
 import hk.edu.polyu.af.bc.badge.flows.badgeclass.GetAllBadgeClasses
-import hk.edu.polyu.af.bc.badge.flows.badgeclass.ReadBadgeClassById
-import hk.edu.polyu.af.bc.badge.flows.badgeclass.ReadBadgeClassByName
+import hk.edu.polyu.af.bc.badge.flows.badgeclass.GetBadgeClassById
+import hk.edu.polyu.af.bc.badge.flows.badgeclass.GetBadgeClassByName
 import hk.edu.polyu.af.bc.badge.getOrThrow
 import hk.edu.polyu.af.bc.badge.output
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
@@ -41,7 +41,7 @@ class ReadBadgeClassTest : UnitTestBase() {
 
 
         //read the BadgeClass by uuid
-        val badgeClassRef: StateAndRef<BadgeClass> = instA.startFlow(ReadBadgeClassById(badgeClass.linearId)).getOrThrow(network)
+        val badgeClassRef: StateAndRef<BadgeClass> = instA.startFlow(GetBadgeClassById(badgeClass.linearId)).getOrThrow(network)
 
         // assert equal of this two badgeClass
         assertEquals(badgeClass.name, badgeClassRef.state.data.name)
@@ -66,7 +66,7 @@ class ReadBadgeClassTest : UnitTestBase() {
         instA.startFlow(CreateBadgeClass("Test Badge1", "Just for testing", null)).getOrThrow(network)
 
         //read BadgeClass by name
-        val badgeClassRef = instA.startFlow(ReadBadgeClassByName("Test Badge1")).getOrThrow(network)
+        val badgeClassRef = instA.startFlow(GetBadgeClassByName("Test Badge1")).getOrThrow(network)
 
         //assert the result
         assertTrue(badgeClassRef.state.data.name == "Test Badge1")
@@ -75,6 +75,6 @@ class ReadBadgeClassTest : UnitTestBase() {
     @org.junit.Test(expected = FlowException::class)
     fun `no name can be found`() {
         instA.startFlow(CreateBadgeClass("Test Badge1", "Just for testing", null)).getOrThrow(network)
-        instA.startFlow(ReadBadgeClassByName("Test Badge2")).getOrThrow(network)
+        instA.startFlow(GetBadgeClassByName("Test Badge2")).getOrThrow(network)
     }
 }
