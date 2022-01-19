@@ -14,7 +14,7 @@ import net.corda.core.node.services.vault.QueryCriteria
 import java.util.*
 @StartableByRPC
 @StartableByService
-class ReadAssertionByID (
+class GetAssertionByID (
     private var uuid: UUID
     ): FlowLogic<Assertion>() {
     @Suspendable
@@ -27,7 +27,7 @@ class ReadAssertionByID (
 }
 @StartableByRPC
 @StartableByService
-class ReadAssertionByRecipient (
+class GetAssertionByRecipient (
         private var recipient:AbstractParty
 ): FlowLogic<List<StateAndRef<Assertion>>>() {
     @Suspendable
@@ -39,7 +39,7 @@ class ReadAssertionByRecipient (
 }
 @StartableByRPC
 @StartableByService
-class ReadAssertionByBadgeClass (
+class GetAssertionByBadgeClass (
         private var badgeClass: BadgeClass
 ): FlowLogic<List<StateAndRef<Assertion>>>() {
     @Suspendable
