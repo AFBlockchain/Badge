@@ -3,13 +3,14 @@ package hk.edu.polyu.af.bc.badge.badgeclass
 import hk.edu.polyu.af.bc.badge.UnitTestBase
 import hk.edu.polyu.af.bc.badge.assertHaveState
 import hk.edu.polyu.af.bc.badge.flows.badgeclass.CreateBadgeClass
-import hk.edu.polyu.af.bc.badge.flows.badgeclass.ReadAllBadgeClass
+import hk.edu.polyu.af.bc.badge.flows.badgeclass.GetAllBadgeClasses
 import hk.edu.polyu.af.bc.badge.flows.badgeclass.ReadBadgeClassById
 import hk.edu.polyu.af.bc.badge.flows.badgeclass.ReadBadgeClassByName
 import hk.edu.polyu.af.bc.badge.getOrThrow
 import hk.edu.polyu.af.bc.badge.output
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
 import net.corda.core.contracts.StateAndRef
+import net.corda.core.flows.FlowException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.slf4j.LoggerFactory
@@ -47,12 +48,12 @@ class ReadBadgeClassTest : UnitTestBase() {
     }
 
     @Test
-    fun `can read all the BadgeClass`() {
+    fun `can get all the BadgeClass`() {
         instA.startFlow(CreateBadgeClass("Test Badge1", "Just for testing", null)).getOrThrow(network)
         instA.startFlow(CreateBadgeClass("Test Badge2", "Just for testing", null)).getOrThrow(network)
 
         //read all the BadgeClass
-        val allBadgeClassRef = instA.startFlow(ReadAllBadgeClass()).getOrThrow(network)
+        val allBadgeClassRef = instA.startFlow(GetAllBadgeClasses()).getOrThrow(network)
         val allNames = allBadgeClassRef.map { it.state.data.name }
 
         //assert the result
@@ -69,5 +70,11 @@ class ReadBadgeClassTest : UnitTestBase() {
 
         //assert the result
         assertTrue(badgeClassRef.state.data.name == "Test Badge1")
+    }
+
+    @org.junit.Test(expected = FlowException::class)
+    fun `no name can be found`() {
+        instA.startFlow(CreateBadgeClass("Test Badge1", "Just for testing", null)).getOrThrow(network)
+        instA.startFlow(ReadBadgeClassByName("Test Badge2")).getOrThrow(network)
     }
 }

@@ -12,12 +12,12 @@ import net.corda.core.flows.StartableByService
 
 
 /**
- * Read all [BadgeClass].
+ * Get all [BadgeClass].
  *
  */
 @StartableByRPC
 @StartableByService
-class ReadAllBadgeClass : FlowLogic<List<StateAndRef<BadgeClass>>>() {
+class GetAllBadgeClasses : FlowLogic<List<StateAndRef<BadgeClass>>>() {
     @Suspendable
     override fun call(): List<StateAndRef<BadgeClass>> {
         return serviceHub.vaultService.queryBy(BadgeClass::class.java).states
@@ -52,10 +52,10 @@ class ReadBadgeClassById(private val linearId: UniqueIdentifier) : FlowLogic<Sta
 class ReadBadgeClassByName(private val name: String) : FlowLogic<StateAndRef<BadgeClass>>() {
     @Suspendable
     override fun call(): StateAndRef<BadgeClass> {
-        val allBadgeClass = subFlow(ReadAllBadgeClass())
+        val allBadgeClass = subFlow(GetAllBadgeClasses())
         val result = allBadgeClass.filter { it.state.data.name == name }
         if(result.isEmpty()) {
-            throw FlowException("The $name is not exist")
+            throw FlowException("The $name does not exist")
         }
         return result[0]
     }
