@@ -74,3 +74,28 @@ class IssueAssertionByID(
 
     }
 }
+@StartableByRPC
+@StartableByService
+class IssueAssertionByName(
+        private var name: String,
+        private var recipient: AbstractParty
+) : FlowLogic<SignedTransaction>() {
+    @Suspendable
+    override fun call(): SignedTransaction {
+        val allBadgeClass = serviceHub.vaultService.queryBy(BadgeClass::class.java).states
+        val result = allBadgeClass.filter { it.state.data.name == name }
+        if(result.isEmpty()) {
+            throw FlowException("The $name is not exist")
+        }
+        val badgeClass=result.get(0)
+        val badgeClassPointer=badgeClass.state.data.toPointer<BadgeClass>()
+        val assertion= Assertion(badgeClassPointer,
+                ourIdentity,
+                recipient,
+                Date(),  // current time
+                false,
+                UniqueIdentifier())
+        return subFlow(IssueTokens(listOf(assertion)))
+
+    }
+}
