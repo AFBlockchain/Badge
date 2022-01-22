@@ -16,7 +16,7 @@ import kotlin.test.assertEquals
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ReadAssertionTest : UnitTestBase() {
+class GetAssertionTest : UnitTestBase() {
     companion object {
         @JvmStatic
         private val logger = LoggerFactory.getLogger(CreateBadgeClassTest::class.java)
