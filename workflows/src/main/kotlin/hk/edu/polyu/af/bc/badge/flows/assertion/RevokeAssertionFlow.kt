@@ -1,9 +1,9 @@
 package hk.edu.polyu.af.bc.badge.flows.assertion
 
+import com.r3.corda.lib.tokens.contracts.NonFungibleTokenContract
 import com.r3.corda.lib.tokens.contracts.commands.IssueTokenCommand
 import hk.edu.polyu.af.bc.badge.states.Assertion
 import net.corda.core.contracts.UniqueIdentifier
-import net.corda.core.flows.CollectSignatureFlow
 import net.corda.core.flows.CollectSignaturesFlow
 import net.corda.core.flows.FinalityFlow
 import net.corda.core.flows.FlowLogic
@@ -27,24 +27,24 @@ class RevokeAssertionFlow (
                 assertion.participants[0],
                 Date(),  // current time
                 false,
-                UniqueIdentifier())
+                assertion.linearId)
 
         val notary=serviceHub.networkMapCache.notaryIdentities.first()
 
         val transactionBuilder=TransactionBuilder(notary = notary).apply {
             addInputState(assertionRef)
-            addOutputState(newAssertion)
-            addCommand(IssueTokenCommand(assertion.issuedTokenType, listOf(0)))
+            addOutputState(newAssertion,NonFungibleTokenContract.contractId)
+            addCommand(IssueTokenCommand(assertion.issuedTokenType,listOf(0)), listOf(assertion.participants[0]).map{it.owningKey})
+
         }
         transactionBuilder.verify(serviceHub)
 
-        val partSignedTX=serviceHub.signInitialTransaction(transactionBuilder)
+        val fullySignedTx=serviceHub.signInitialTransaction(transactionBuilder)
 
         val otherParticipants=ArrayList(newAssertion.participants)
         otherParticipants.remove(ourIdentity)
         val otherPartySessions=otherParticipants.map{initiateFlow(it)}
 
-        val fullySignedTx=subFlow(CollectSignaturesFlow(partSignedTX,otherPartySessions))
         return subFlow(FinalityFlow(fullySignedTx,otherPartySessions))
     }
 }
