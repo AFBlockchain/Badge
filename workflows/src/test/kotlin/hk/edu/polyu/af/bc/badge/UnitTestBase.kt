@@ -33,7 +33,8 @@ abstract class UnitTestBase {
                         TestCordapp.findCordapp("hk.edu.polyu.af.bc.badge.contracts"),
                         TestCordapp.findCordapp("hk.edu.polyu.af.bc.badge.flows"),
                         TestCordapp.findCordapp("com.r3.corda.lib.tokens.workflows.flows"),
-                        TestCordapp.findCordapp("com.r3.corda.lib.tokens.contracts")
+                        TestCordapp.findCordapp("com.r3.corda.lib.tokens.contracts"),
+                        TestCordapp.findCordapp("com.r3.corda.lib.ci.workflows")
                 ), networkParameters = testNetworkParameters(minimumPlatformVersion = 4)))
 
         instA = network.createPartyNode(CordaX500Name.parse("O=InstituteA, L=Athens, C=GR"))

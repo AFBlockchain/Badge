@@ -50,6 +50,7 @@ dependencies {
     cordapp project(":contracts")
     cordaCompile "$tokens_release_group:tokens-workflows:$tokens_release_version"
     cordaCompile "$tokens_release_group:tokens-selection:$tokens_release_version"
+    cordaCompile "com.r3.corda.lib.ci:ci-workflows:1.0"
 
     testImplementation 'com.github.manosbatsis.corda.testacles:corda-testacles-nodedriver:0.24'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'

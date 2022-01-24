@@ -4,6 +4,7 @@ import com.google.common.io.ByteStreams.copy
 import hk.edu.polyu.af.bc.badge.UnitTestBase
 import hk.edu.polyu.af.bc.badge.assertHaveState
 import hk.edu.polyu.af.bc.badge.flows.badgeclass.CreateBadgeClass
+import hk.edu.polyu.af.bc.badge.flows.badgeclass.CreateBadgeClassByND
 import hk.edu.polyu.af.bc.badge.getOrThrow
 import hk.edu.polyu.af.bc.badge.output
 import hk.edu.polyu.af.bc.badge.states.BadgeClass
@@ -44,6 +45,20 @@ class CreateBadgeClassTest: UnitTestBase() {
         // assert vault status
         instA.assertHaveState(badgeClass) {
             s1, s2 -> s1.linearId == s2.linearId
+        }
+    }
+
+    @Test
+    fun `can create BadgeClass By name and description`() {
+        val tx = instA.startFlow(CreateBadgeClassByND("Test Badge", "Just for testing")).getOrThrow(network)
+
+        // assert flow output
+        val badgeClass = tx.output(BadgeClass::class.java)
+        assertEquals("Test Badge", badgeClass.name)
+
+        // assert vault status
+        instA.assertHaveState(badgeClass) {
+                s1, s2 -> s1.linearId == s2.linearId
         }
     }
 }

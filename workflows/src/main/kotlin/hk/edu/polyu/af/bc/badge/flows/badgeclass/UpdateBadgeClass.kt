@@ -37,6 +37,14 @@ class UpdateBadgeClassFlow(
     }
 }
 
+/**
+ * Update a [BadgeClass].
+ *
+ * This flow is used to update an existed BadgeClass
+ *
+ * @property BadgeClassDTO the DTO of the BadgeClass
+ * @property observers observer parties (optional)
+ */
 @StartableByRPC
 @StartableByService
 class UpdateBadgeClass(
@@ -45,13 +53,12 @@ class UpdateBadgeClass(
 ): FlowLogic<SignedTransaction>() {
     @Suspendable
     override fun call(): SignedTransaction {
-        val badgeClassRef = subFlow(QueryBadgeClassById(badgeClassData.linearId))
+        val badgeClassRef = subFlow(GetBadgeClassById(badgeClassData.linearId))
         if(badgeClassData.name == null) {
             badgeClassData.name = badgeClassRef.state.data.name
         }
         if(badgeClassData.description == null) {
             badgeClassData.description = badgeClassRef.state.data.description
-
         }
         if (badgeClassData.image == null) {
             badgeClassData.image = badgeClassRef.state.data.image
@@ -60,5 +67,4 @@ class UpdateBadgeClass(
         return subFlow(UpdateBadgeClassFlow(badgeClassRef,
             badgeClassData.name!!, badgeClassData.description!!,badgeClassData.image,observers))
     }
-
 }
