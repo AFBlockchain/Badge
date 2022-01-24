@@ -19,10 +19,9 @@ import java.util.*
 class RedeemAssertionFlow (
         private var uuid:UUID
         ): FlowLogic<SignedTransaction>() {
-
     @Suspendable
     override fun call(): SignedTransaction {
-        val oldAssertion = subFlow(GetAssertionByID(uuid))
-        return (subFlow(RedeemNonFungibleTokens(oldAssertion.tokenType,ourIdentity)))
+        val assertion = subFlow(GetAssertionByID(uuid))
+        return (subFlow(RedeemNonFungibleTokens(assertion.tokenType,assertion.issuer)))
     }
 }
